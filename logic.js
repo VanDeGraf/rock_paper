@@ -1,9 +1,9 @@
 
 function computerPlay() {
-    let rand = Math.random();
-    if (rand < 0.33) {
+    let randomThing = Math.random();
+    if (randomThing < 0.33) {
         return "Rock";
-    } else if (rand < 0.66) {
+    } else if (randomThing < 0.66) {
         return "Paper";
     } else {
         return "Scissors";
@@ -15,34 +15,34 @@ function computerPlay() {
 function playRound(playerSelection, computerSelection) {
 
     if (playerSelection === computerSelection) {
-        return { msg: "Draw!! Same selections", result: null };
+        return { msg: "Draw!! Same selections", won: null };
     } else if (playerSelection === "Rock") {
         if (computerSelection === "Paper") {
-            return roundResultMsg(false, playerSelection, computerSelection);
+            return formatRoundResult(false, playerSelection, computerSelection);
         } else if (computerSelection === "Scissors") {
-            return roundResultMsg(true, playerSelection, computerSelection);
+            return formatRoundResult(true, playerSelection, computerSelection);
         }
     } else if (playerSelection === "Paper") {
         if (computerSelection === "Rock") {
-            return roundResultMsg(true, playerSelection, computerSelection);
+            return formatRoundResult(true, playerSelection, computerSelection);
         } else if (computerSelection === "Scissors") {
-            return roundResultMsg(false, playerSelection, computerSelection);
+            return formatRoundResult(false, playerSelection, computerSelection);
         }
     } else if (playerSelection === "Scissors") {
         if (computerSelection === "Rock") {
-            return roundResultMsg(false, playerSelection, computerSelection);
+            return formatRoundResult(false, playerSelection, computerSelection);
         } else if (computerSelection === "Paper") {
-            return roundResultMsg(true, playerSelection, computerSelection);
+            return formatRoundResult(true, playerSelection, computerSelection);
         }
     }
 }
 
-function roundResultMsg(isPlayerWin, playerSelection, computerSelection) {
+function formatRoundResult(playerWon, playerSelection, computerSelection) {
     return {
-        msg: "You " + (isPlayerWin ? "Win" : "Lose") + "! " +
-            (isPlayerWin ? playerSelection : computerSelection) + " beats " +
-            (isPlayerWin ? computerSelection : playerSelection),
-        result: isPlayerWin
+        msg: "You " + (playerWon ? "Win" : "Lose") + "! " +
+            (playerWon ? playerSelection : computerSelection) + " beats " +
+            (playerWon ? computerSelection : playerSelection),
+        won: playerWon
     }
 }
 
@@ -73,23 +73,24 @@ function getPlayerSelection() {
 
 
 function game() {
-    let win = 0;
-    let lose = 0;
+    let playerScore = 0;
+    let computerScore = 0;
 
     for (let round = 1; round <= 5; round++) {
         let result = playRound(getPlayerSelection(), computerPlay());
         console.log("Round " + round + ": " + result.msg);
-        if (result.result !== null) {
-            if (result.result) {
-                win++;
+        if (result.won !== null) {
+            if (result.won) {
+                playerScore++;
             } else {
-                lose++;
+                computerScore++;
             }
         }
     }
 
-    console.log("Score " + win + ":" + lose + ", " +
-        (win == lose ? "Draw!" : ("You " + (win > lose ? "Win" : "Lose") + "!")));
+    console.log("Score " + playerScore + ":" + computerScore + ", " +
+        (playerScore == computerScore ? "Draw!" :
+            ("You " + (playerScore > computerScore ? "Win" : "Lose") + "!")));
 }
 
 game();
