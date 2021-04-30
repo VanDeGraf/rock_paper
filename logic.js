@@ -93,4 +93,8 @@ function game() {
             ("You " + (playerScore > computerScore ? "Win" : "Lose") + "!")));
 }
 
-game();
+// function uiAddRoundLog(playerWon, playerSelection, computerSelection) {
+
+// }
+
+// game();

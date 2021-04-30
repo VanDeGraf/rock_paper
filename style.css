@@ -1,0 +1,104 @@
+:root {
+    --border: cadetblue 1px solid;
+}
+
+html {
+    background-color: white;
+    padding: 0;
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    width: 75%;
+    margin: 0 auto;
+    background-color: rgba(231, 231, 210, 0.884);
+    display: flex;
+    padding: 0;
+    height: 100%;
+}
+
+#roundslog {
+    width: 250px;
+    height: 100%;
+    border-right: var(--border);
+}
+
+#score {
+    border-bottom: var(--border);
+    padding-left: 10px;
+}
+
+#rules {
+    border-bottom: var(--border);
+    padding: 0 10px 10px 10px;
+}
+
+main {
+    flex-grow: 1;
+}
+
+#result {
+    /* border-bottom: var(--border); */
+    padding: 0 10px 10px 10px;
+}
+
+#selection {
+    border-bottom: var(--border);
+    padding: 0 10px 10px 10px;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.button {
+    text-decoration: none;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 8px;
+}
+
+.button img {
+    width: 90px;
+    height: auto;
+}
+
+.button:hover {
+    background-color: cadetblue;
+    border-radius: 4px 4px 9999px 9999px;
+}
+
+.versus {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.versus-big img {
+    width: 150px;
+}
+
+.versus-small img {
+    width: 30%;
+}
+
+.versus img {    
+    height: auto;
+}
+
+.versus-right {
+    transform: scale(1,-1) rotate(180deg);
+}
+
+#result-desc {
+    padding: 30px;
+}
+
+.win {
+    background-color: rgba(203, 228, 179, 0.541);
+}
+
+.lose {
+    background-color: rgba(236, 183, 179, 0.541);
+}

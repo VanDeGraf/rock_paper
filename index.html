@@ -3,10 +3,62 @@
 <head>
     <title>Rock Paper</title>
     <script type="text/javascript" src="logic.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
 <body>
-
+    <div id="roundslog">
+        <div id="score">
+            <h2 align="center">Score</h2>
+            <h3>Player: 0</h3>
+            <h3>Computer: 0</h3>
+        </div>
+        <div class="versus versus-small win">
+            <img src="img/scissors.svg" class="versus-left" alt="scissors hand">
+            <img src="img/scissors.svg" class="versus-right" alt="scissors hand">
+        </div>
+        <div class="versus versus-small lose">
+            <img src="img/scissors.svg" class="versus-left" alt="scissors hand">
+            <img src="img/scissors.svg" class="versus-right" alt="scissors hand">
+        </div>
+        <div class="versus versus-small lose">
+            <img src="img/scissors.svg" class="versus-left" alt="scissors hand">
+            <img src="img/scissors.svg" class="versus-right" alt="scissors hand">
+        </div>
+    </div>
+    <main>
+        <div id="rules">
+            <h3>Rules:</h3>
+            Play 5 rounds, win round add 1 score. At end of 5 rounds win with best score.
+            Tie don't add score;
+        </div>
+        <h3 style="padding-left: 10px;">Choose your selection:</h3>
+        <div id="selection">
+            <a href="#" class="button" data-value="rock">
+                <span>rock</span>
+                <img src="img/rock.svg" alt="rock hand">
+            </a>
+            <a href="#" class="button" data-value="paper">
+                <span>paper</span>
+                <img src="img/paper.svg" alt="paper hand">
+            </a>
+            <a href="#" class="button" data-value="scissors">
+                <span>scissors</span>
+                <img src="img/scissors.svg" alt="scissors hand">
+            </a>
+        </div>
+        <div id="result">
+            <h1 align="center">Player vs Computer</h1>
+            <div class="versus versus-big">
+                <img src="img/scissors.svg" class="versus-left" alt="scissors hand">
+                <img src="img/scissors.svg" class="versus-right" alt="scissors hand">
+            </div>
+            <div id="result-desc">
+                <h3>You win this round!</h3>
+                Versus description
+            </div>
+        </div>
+    </main>
 </body>
 
 </html>
