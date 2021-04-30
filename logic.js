@@ -1,5 +1,5 @@
 
-function computerPlay() {
+function getComputerSelection() {
     let randomThing = Math.random();
     if (randomThing < 0.33) {
         return "Rock";
@@ -12,89 +12,109 @@ function computerPlay() {
 
 
 
-function playRound(playerSelection, computerSelection) {
+function isPlayerWin(playerSelection, computerSelection) {
 
     if (playerSelection === computerSelection) {
-        return { msg: "Draw!! Same selections", won: null };
+        return null;
     } else if (playerSelection === "Rock") {
         if (computerSelection === "Paper") {
-            return formatRoundResult(false, playerSelection, computerSelection);
+            return false;
         } else if (computerSelection === "Scissors") {
-            return formatRoundResult(true, playerSelection, computerSelection);
+            return true;
         }
     } else if (playerSelection === "Paper") {
         if (computerSelection === "Rock") {
-            return formatRoundResult(true, playerSelection, computerSelection);
+            return true;
         } else if (computerSelection === "Scissors") {
-            return formatRoundResult(false, playerSelection, computerSelection);
+            return false;
         }
     } else if (playerSelection === "Scissors") {
         if (computerSelection === "Rock") {
-            return formatRoundResult(false, playerSelection, computerSelection);
+            return false;
         } else if (computerSelection === "Paper") {
-            return formatRoundResult(true, playerSelection, computerSelection);
+            return true;
         }
     }
 }
 
-function formatRoundResult(playerWon, playerSelection, computerSelection) {
-    return {
-        msg: "You " + (playerWon ? "Win" : "Lose") + "! " +
-            (playerWon ? playerSelection : computerSelection) + " beats " +
-            (playerWon ? computerSelection : playerSelection),
-        won: playerWon
+function uiAddRoundLog(playerWon, playerSelection, computerSelection) {
+    playerSelection = playerSelection.toLowerCase();
+    computerSelection = computerSelection.toLowerCase();
+    const log = document.querySelector('#roundslog');
+    const container = document.createElement('div');
+    container.classList.add('versus', 'versus-small',
+        (playerWon === null ? 'tie' : playerWon ? 'win' : 'lose'));
+    let img = document.createElement('img');
+    img.classList.add('versus-left');
+    img.setAttribute('src', `img/${playerSelection}.svg`);
+    img.setAttribute('alt', `${playerSelection} hand`);
+    container.appendChild(img);
+    img = document.createElement('img');
+    img.classList.add('versus-right');
+    img.setAttribute('src', `img/${computerSelection}.svg`);
+    img.setAttribute('alt', `${computerSelection} hand`);
+    container.appendChild(img);
+    log.appendChild(container);
+}
+
+function uiChangeRoundResult(playerWon, playerSelection, computerSelection) {
+    const roundDesc = playerWon == null ? 'Tie! Selections are same!' :
+        "You " + (playerWon ? "Win" : "Lose") + " this round! " +
+        (playerWon ? playerSelection : computerSelection) + " beats " +
+        (playerWon ? computerSelection : playerSelection);
+    document.querySelector('#result-desc h3').innerText = roundDesc;
+
+    const imgLeft = document.querySelector('.versus-big .versus-left');
+    const imgRight = document.querySelector('.versus-big .versus-right');
+    playerSelection = playerSelection.toLowerCase();
+    computerSelection = computerSelection.toLowerCase();
+    imgLeft.setAttribute('src', `img/${playerSelection}.svg`);
+    imgLeft.setAttribute('alt', `${playerSelection} hand`);
+    imgRight.setAttribute('src', `img/${computerSelection}.svg`);
+    imgRight.setAttribute('alt', `${computerSelection} hand`);
+}
+
+function uiEndGame(playerWon) {
+    document.querySelector('main>h3').remove();
+    document.querySelector('#selection').remove();
+    document.querySelector('#result').remove();
+    const h = document.createElement('h1');
+    h.innerText = playerWon == null ? 'Tie! No winners!' :
+        playerWon ? 'You Win!' : 'You Lose!';
+    h.setAttribute('align', 'center');
+    document.querySelector('main').appendChild(h);
+    const p = document.createElement('p');
+    p.innerText = "Reload page to play again."
+    p.setAttribute('align', 'center');
+    document.querySelector('main').appendChild(p);
+}
+
+function uiUpdateScore(playerScore, computerScore) {
+    document.querySelector('#score-player').innerText = "Player: " + playerScore;
+    document.querySelector('#score-computer').innerText = "Computer: " + computerScore;
+}
+
+let playerScore = 0;
+let computerScore = 0;
+
+let currentRound = 1;
+let maxRound = 5;
+
+function playRound(event) {
+    const computerSelection = getComputerSelection();
+    const playerSelection = event.target.dataset.value;
+    const playerWon = isPlayerWin(playerSelection, computerSelection);
+    playerScore += playerWon ? 1 : 0;
+    computerScore += playerWon === false ? 1 : 0;
+    uiAddRoundLog(playerWon, playerSelection, computerSelection);
+    uiChangeRoundResult(playerWon, playerSelection, computerSelection);
+    uiUpdateScore(playerScore, computerScore);
+    currentRound++;
+    if (currentRound > maxRound) {
+        uiEndGame(playerScore == computerScore ? null : playerScore > computerScore);
     }
 }
 
-function validatePlayerSelection(playerSelection) {
-    playerSelection = playerSelection + '';
-    if (playerSelection.length < 1) {
-        return false;
-    }
-    playerSelection = playerSelection[0].toUpperCase() + playerSelection.slice(1).toLowerCase();
-
-    if (playerSelection !== "Rock" &&
-        playerSelection !== "Paper" &&
-        playerSelection !== "Scissors") {
-        return false;
-    }
-    return playerSelection;
-}
-
-
-function getPlayerSelection() {
-    let playerSelection;
-    playerSelection = prompt("Type one of Rock, Paper or Scissors:");
-    while (!(playerSelection = validatePlayerSelection(playerSelection))) {
-        playerSelection = prompt("Wrong input! Type one of Rock, Paper or Scissors:");
-    }
-    return playerSelection;
-}
-
-
-function game() {
-    let playerScore = 0;
-    let computerScore = 0;
-
-    for (let round = 1; round <= 5; round++) {
-        let result = playRound(getPlayerSelection(), computerPlay());
-        console.log("Round " + round + ": " + result.msg);
-        if (result.won !== null) {
-            if (result.won) {
-                playerScore++;
-            } else {
-                computerScore++;
-            }
-        }
-    }
-
-    console.log("Score " + playerScore + ":" + computerScore + ", " +
-        (playerScore == computerScore ? "Draw!" :
-            ("You " + (playerScore > computerScore ? "Win" : "Lose") + "!")));
-}
-
-// function uiAddRoundLog(playerWon, playerSelection, computerSelection) {
-
-// }
-
-// game();
+document.querySelectorAll('.button').forEach((element) => {
+    element.addEventListener('click', playRound);
+});

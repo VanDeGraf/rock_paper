@@ -2,6 +2,8 @@
     --border: cadetblue 1px solid;
 }
 
+
+
 html {
     background-color: white;
     padding: 0;
@@ -39,7 +41,6 @@ main {
 }
 
 #result {
-    /* border-bottom: var(--border); */
     padding: 0 10px 10px 10px;
 }
 
@@ -63,6 +64,11 @@ main {
 .button img {
     width: 90px;
     height: auto;
+    pointer-events: none;
+}
+
+.button span {
+    pointer-events: none;
 }
 
 .button:hover {
@@ -96,9 +102,13 @@ main {
 }
 
 .win {
-    background-color: rgba(203, 228, 179, 0.541);
+    background-color: #cbe4b38a;
 }
 
 .lose {
-    background-color: rgba(236, 183, 179, 0.541);
+    background-color: #ecb7b38a;
+}
+
+.tie {
+    background-color: #dfe3e0;
 }
